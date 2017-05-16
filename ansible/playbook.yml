@@ -1,5 +1,5 @@
 ---
-- hosts: webserver1
+- hosts: webservers1
   tasks:
     - name: Add nodejs repository to yum repositories
       become: yes
@@ -29,7 +29,7 @@
         state: restarted
         enabled: yes
 
-- hosts: webserver2
+- hosts: webservers2
   tasks:
     - name: Add nodejs repository to yum repositories
       become: yes
