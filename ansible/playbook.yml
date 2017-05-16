@@ -1,6 +1,10 @@
 ---
 - hosts: webservers
   tasks:
+    - name: Including vars files
+      include_vars:
+        file: config.yml
+
     - name: Add nodejs repository to yum repositories
       become: yes
       yum_repository:
@@ -12,11 +16,9 @@
     - name: Install packages
       become: yes
       yum: name={{item}} state=present
-      vars:
-        node_version: 7.8.0
       with_items:
         - nginx
-        - nodejs-{{node_version}}
+        - nodejs-{{webservers_node_version}}
 
     - name: Copy custom nginx config
       become: yes
@@ -33,6 +35,10 @@
 
 - hosts: node_webservers
   tasks:
+    - name: Including vars files
+      include_vars:
+        file: config.yml
+
     - name: Add nodejs repository to yum repositories
       become: yes
       yum_repository:
@@ -44,7 +50,5 @@
     - name: Install packages
       become: yes
       yum: name={{item}} state=present
-      vars:
-        node_version: 7.9.0
       with_items:
-        - nodejs-{{node_version}}
+        - nodejs-{{node_webservers_node_version}}
