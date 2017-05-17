@@ -1,0 +1,16 @@
+- name: Install nginx
+  become: yes
+  yum: name=nginx state=present
+
+- name: Copy custom nginx config
+  become: yes
+  copy:
+    src: '/Users/durgaman/workspace/devOps/ansible/custom_nginx_config'
+    dest: '/etc/nginx/conf.d/default.conf'
+
+- name: Restart nginx 
+  become: yes
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
