@@ -1,28 +1,14 @@
 ---
-- hosts: webservers
-  tasks:
-    - name: Include vars files
-      include_vars:
-        file: config.yml
+- hosts: webservers1
+  vars_files:
+    - ./configs/webservers1.yml
 
-    - name: Include nodejs role
-      include_role:
-        name: nodejs
-      vars:
-        node_version: '{{webservers_node_version}}'
+  roles:
+    - nodejs
+    - nginx  
 
-    - name: Include nginx role
-      include_role:
-        name: nginx      
-
-- hosts: node_webservers
-  tasks:
-    - name: Including vars files
-      include_vars:
-        file: config.yml
-
-    - name: Include nodejs role
-      include_role:
-        name: nodejs
-      vars:
-        node_version: '{{node_webservers_node_version}}'  
+- hosts: webservers2
+  vars_files:
+    - ./configs/webservers2.yml
+  roles:
+    - nodejs  
