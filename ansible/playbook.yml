@@ -3,10 +3,10 @@
   vars_files:
     - ./configs/webservers1.yml
   roles:
-    - webservers1_roles
+    - webservers1
     
 - hosts: webservers2
   vars_files:
     - ./configs/webservers2.yml
   roles:
-    - webservers2_roles
+    - webservers2
