@@ -1,0 +1,4 @@
+---
+- name: Include nodejs role
+  include_role:
+    name: nodejs

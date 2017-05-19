@@ -1,17 +1,31 @@
 - name: Install nginx
   become: yes
-  yum: name=nginx state=present
-
-- name: Change the nginx port
-  become: yes
-  template:
-    src: 'nginx.conf'
-    dest: '/etc/nginx/conf.d/default.conf'
-  notify: Restart nginx  
+  yum:
+   name: nginx
+   state: present
 
 - name: Start nginx service
   become: yes
   service:
     name: nginx
     state: started
+    enabled: yes
+
+- name: Change the nginx port
+  become: yes
+  template:
+    src: 'nginx.conf'
+    dest: '/etc/nginx/conf.d/default.conf'
+  register: nginx_config_state
+
+- name: Set the nginx config state fact
+  set_fact:
+    nginx_state_changed: '{{nginx_config_state.changed}}'
+
+- name: Restart nginx service
+  become: yes
+  when: nginx_state_changed==true
+  service:
+    name: nginx
+    state: restarted
     enabled: yes
